@@ -1,6 +1,6 @@
 import Foundation
 
-var standardError = FileHandle.standardError
+private var _standardError = FileHandle.standardError
 
 extension FileHandle: TextOutputStream {
   public func write(_ string: String) {
@@ -14,7 +14,7 @@ enum Common {
         do {
             return try String(contentsOfFile: path, encoding: .utf8)
         } catch {
-            print("[ERROR]: Failed to read file - \(error.localizedDescription)", to: &standardError)
+            print("[ERROR]: Failed to read file - \(error.localizedDescription)", to: &_standardError)
             return nil
         }
     }
