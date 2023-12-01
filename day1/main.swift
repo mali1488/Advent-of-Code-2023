@@ -1,7 +1,7 @@
 import Foundation
 
 private func _solvePartOne() {
-    let input = Common.readAndSplitFileByNewLine(path: "input_part_1.txt")
+    let input = Common.readAndSplitFileByNewLine(path: "input.txt")
     let answer = input.compactMap { line -> Int? in
         let numbers = line.compactMap { $0.wholeNumberValue }
         let first = numbers.first ?? 0
@@ -26,7 +26,7 @@ private func _solvePartTwo() {
             }
     }
 
-    let input = Common.readAndSplitFileByNewLine(path: "input_part_2.txt")
+    let input = Common.readAndSplitFileByNewLine(path: "input.txt")
     let answer = input.compactMap { line -> Int? in
         let numbers = _parseLineToNumbers(line)
         let first = numbers.first ?? 0
