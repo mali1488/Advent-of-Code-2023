@@ -1,53 +1,29 @@
 import Foundation
 
 struct Game {
-    enum Cube {
-        case red(Int)
-        case green(Int)
-        case blue(Int)
+    struct Cube {
+        enum Color {
+            case red
+            case green
+            case blue
 
-        var isRed: Bool { 
-            switch self {
-                case .red: return true
-                default: return false
-            }
-         }
-
-        var isGreen: Bool { 
-            switch self {
-                case .green: return true
-                default: return false
+            static func fromString(str: String) -> Color? {
+                switch str {
+                    case "red": return .red
+                    case "green": return .green
+                    case "blue": return .blue
+                    default: return nil
+                }
             }
         }
-
-        var isBlue: Bool {
-            switch self {
-                case .blue: return true
-                default: return false
-            }
-        }
-
-        var count: Int {
-            switch self {
-                case let .red(count), let .green(count), let .blue(count):
-                return count
-            }
-        }
+        let color: Color
+        let count: Int
 
         var isPossible: Bool {
-            switch self {
-                case .red(let count): return count < 13
-                case .green(let count): return count < 14
-                case .blue(let count): return count < 15
-            }
-        }
-
-        static func fromString(str: String, count: Int) -> Cube? {
-            switch str {
-                case "red": return .red(count)
-                case "green": return .green(count)
-                case "blue": return .blue(count)
-                default: return nil
+            switch self.color {
+                case .red: return count < 13
+                case .green: return count < 14
+                case .blue: return count < 15
             }
         }
     }
@@ -59,13 +35,13 @@ struct Game {
         }
 
         var maxRed: Int {
-            cubes.filter { $0.isRed }.map { $0.count }.reduce(0, +)
+            cubes.filter { $0.color == .red }.map { $0.count }.reduce(0, +)
         }
         var maxGreen: Int {            
-            cubes.filter { $0.isGreen }.map { $0.count }.reduce(0, +)
+            cubes.filter { $0.color == .green }.map { $0.count }.reduce(0, +)
         }
         var maxBlue: Int {
-            cubes.filter { $0.isBlue }.map { $0.count }.reduce(0, +)
+            cubes.filter { $0.color == .blue }.map { $0.count }.reduce(0, +)
         }
     }
     var isPossible: Bool {
@@ -93,7 +69,13 @@ private func _parseToGame(line: String) -> Game? {
                 .compactMap { setStr -> Game.Cube? in
                     switch (setStr.first, setStr.last) {
                     case (.some(let count), .some(let color)):
-                        return Int(count).map { Game.Cube.fromString(str: color, count: $0) } ?? nil
+                        guard 
+                            let color = Game.Cube.Color.fromString(str: color),
+                            let count = Int(count) 
+                        else {
+                            return nil
+                        }
+                        return Game.Cube(color: color, count: count)
                     default: return nil
                     }
                 }
