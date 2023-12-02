@@ -2,4 +2,4 @@
 
 set -xe
 
-swiftc main.swift common.swift
+swiftc main.swift ../common.swift

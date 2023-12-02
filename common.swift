@@ -9,12 +9,16 @@ extension FileHandle: TextOutputStream {
   }
 }
 
+func logError(_ error: String) {
+    print("[ERROR]: \(error)", to: &_standardError)
+}
+
 enum Common {
     static func readFile(path: String) -> String? {
         do {
             return try String(contentsOfFile: path, encoding: .utf8)
         } catch {
-            print("[ERROR]: Failed to read file - \(error.localizedDescription)", to: &_standardError)
+            logError("Failed to read file - \(error.localizedDescription)")
             return nil
         }
     }
