@@ -30,3 +30,13 @@ enum Common {
         return content.components(separatedBy: "\n").filter { $0 != "" }
     }
 }
+
+extension Array {
+    public subscript(safeIndex index: Int) -> Element? {
+        guard index >= 0, index < endIndex else {
+            return nil
+        }
+
+        return self[index]
+    }
+}
