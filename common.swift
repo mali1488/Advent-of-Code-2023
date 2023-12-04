@@ -40,3 +40,23 @@ extension Array {
         return self[index]
     }
 }
+
+extension Int {
+    static func power(_ val: Int, _ exponent: Int) -> Int {
+        pow(Decimal(val), exponent).asInt
+    }
+}
+
+extension Decimal {
+    var asInt: Int {
+        NSDecimalNumber(decimal: self).intValue
+    }
+}
+
+extension String {
+    func toInts() -> [Int] {
+        components(separatedBy: " ")
+            .compactMap { $0.trimmingCharacters(in: .whitespaces) }
+            .compactMap { Int($0) }
+    }
+}
